@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>轻量级企业管理系统</title>
+    <style>
+        .tdred{
+            color: red;
+        }
+        .tdgreen{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div align="center">
+        <h2>车辆管理系统</h2>
+        <a href="{% url 'new' %}">新增车辆</a>
+        <a href="{% url 'car' %}">查看所有车辆</a>
+        <a href="{% url 'search' %}">查询行车记录</a>
+        <a href="{% url 'del_all' %}">删除所有车辆</a>
+        <a href="{% url 'del_allinfo' %}">清空所有信息</a><br><br>
+        <table align="center" border="2px solid" id="table">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>常用名</th>
+                    <th>车牌号码</th>
+                    <th>行驶证正本</th>
+                    <th>行驶证副本</th>
+                    <th>车辆登记时间</th>
+                    <th>车辆公里数</th>
+                    <th>车辆状况</th>
+                    <th>车辆派出情况</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in car_data %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.cym }}</td>
+                    <td>{{ item.cphm }}</td>
+                    <td><img width="120" height="100" src="/media/{{ item.xszzb }}"></td>
+                    <td><img width="120" height="100" src="/media/{{ item.xszfb }}"></td>
+                    <td>{{ item.cldjsj }}</td>
+                    <td>{{ item.clgls }}</td>
+                    <td>{{ item.clzk }}</td>
+                    {% if item.pcqk == '车辆已派出' %}
+                    <td class="tdred">{{ item.pcqk }}</td>
+                    {% elif item.pcqk == '空闲' %}
+                    <td class="tdgreen">{{ item.pcqk }}</td>
+                    {% endif %}
+                    <td>
+                        <a href="{% url 'anpai' item.cym %}">派车</a>
+                        <a href="{% url 'guihuan' item.cym %}">还车</a>
+                        <a href="{% url 'edit' item.cym %}">修改</a>
+                        <a href="{% url 'del_one' item.cym %}">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        (function status() {
+            var td = document.getElementsByClassName('tdred');
+            for (var i = 0;i<td.length;i++){
+                var nbro=td[i].nextElementSibling;
+                var a_anpai=nbro.firstElementChild;
+                a_anpai.style="pointer-events:none;color:gray;";
+            }
+        }());
+        (function status() {
+            var td = document.getElementsByClassName('tdgreen');
+            for (var i = 0;i<td.length;i++){
+                var nbro=td[i].nextElementSibling;
+                var a_anpai=nbro.firstElementChild;
+                var a_guihuan=a_anpai.nextElementSibling;
+                a_guihuan.style="pointer-events:none;color:gray;";
+            }
+        }());
+    </script>
+</body>
+</html>

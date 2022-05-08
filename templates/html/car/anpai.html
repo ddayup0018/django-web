@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>派车信息</title>
+</head>
+<body>
+    <div align="center">
+        <h2>派车信息</h2>
+        <form action="{% url 'anpai_insert' %}" method="post">
+            {% csrf_token %}
+            <p>派出车辆:<input type="text" name="cym" value="{{ item }}"></p>
+            <p>驾驶员:<input type="text" name="jsy"></p>
+            <p>用车事由:<input type="text" name="ycsy" size="64" placeholder="简要说明即可!"></p>
+            <p><input type="submit" name="anpai_submit">
+                <button><a href="{% url 'car' %}">返回</a></button>
+            </p>
+        </form>
+    </div>
+</body>
+</html>

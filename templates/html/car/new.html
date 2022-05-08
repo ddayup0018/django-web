@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增车辆</title>
+    <style>
+        .form_new{
+            display: block;
+            margin-left: 40%;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="form_new">
+        <h2>新增车辆信息</h2>
+        <form action="{% url 'new_insert' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>常用名:<input type="text" name="cym" id="cym" placeholder="中英文混搭加数字"/></p>
+            <p>车牌号码:<input type="text" name="cphm" id="cphm" placeholder="车牌号码字母用大写"/></p>
+            <p>行驶证正本(请上传图片):<input type="file" name="xszzb" id="xszzb" /></p>
+            <p>行驶证副本(请上传图片):<input type="file" name="xszfb" id="xszfb" /></p>
+            <p>车辆登记时间:<input type="date" name="cldjsj" id="cldjsj" /></p>
+            <p>车辆公里数:<input type="number" name="clgls" id="clgls" />公里</p>
+            <p>车辆状况:<input type="text" name="clzk" id="clzk" /></p>
+            <input type="submit" name="submit" value="提交信息">
+            <input type="reset" value="清空信息">
+        </form>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>

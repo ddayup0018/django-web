@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>轻量级企业管理系统</title>
+</head>
+<body>
+    <div align="center">
+        <h1>轻量级企业管理系统</h1>
+            <h3>
+                <a href="{% url 'user' %}">员工管理</a>
+                <a href="{% url 'car' %}">车辆管理</a>
+                <a href="">资产管理</a>
+                <a href="">合同管理</a>
+                <a href="">财务管理</a>
+            </h3>
+            <h4>
+                <p>你当前拥有员工<span style="color: red">{{ people_counts }}</span>名</p>
+                <p>你当前拥有车辆<span style="color: red">{{ car_counts }}</span>辆</p>
+
+
+            </h4>
+    </div>
+</body>
+</html>

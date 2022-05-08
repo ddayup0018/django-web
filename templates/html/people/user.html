@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>轻量级企业管理系统</title>
+</head>
+<body>
+    <div align="center">
+        <h2>员工管理系统</h2>
+            <a href="{% url 'new' %}">新增员工</a>
+            <a href="{% url 'user' %}">查看所有员工</a>
+            <a href="javascript:delete_confirm('{% url 'del_all' %}')">删除所有员工</a><br>
+            <form action="{% url 'find_one' %}" method="post">
+                {% csrf_token %}
+                <p>查找员工<input type="text" name="find_xm" placeholder="按姓名查找"/>
+                <input type="submit" name="find_submit" value="查询"></p>
+
+            </form>
+        <table align="center" border="2px solid">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>身份证号</th>
+                    <th>手机号码</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>职务</th>
+                    <th>岗级</th>
+                    <th>学历</th>
+                    <th>婚姻状况</th>
+                    <th>政治面貌</th>
+                    <th>获奖信息</th>
+                    <th>特长</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in user_data %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.xm }}</td>
+                    <td>{{ item.sfzh }}</td>
+                    <td>{{ item.sjhm }}</td>
+                    <td>{{ item.xb }}</td>
+                    <td>{{ item.nl }}</td>
+                    <td>{{ item.zw }}</td>
+                    <td>{{ item.gj }}</td>
+                    <td>{{ item.xl }}</td>
+                    <td>{{ item.hyzk }}</td>
+                    <td>{{ item.zzmm }}</td>
+                    <td>{{ item.hjxx }}</td>
+                    <td>{{ item.tc }}</td>
+                    <td>
+                        <a href="{% url 'edit' item.id %}">修改</a>
+                        <a href="javascript:delete_confirm('{% url 'del_one' item.xm %}')">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        function delete_confirm(url) {
+            if (confirm('该执行数据不可恢复,是否执行该操作?')){
+                window.location = url;
+            }
+        }
+    </script>
+</body>
+</html>

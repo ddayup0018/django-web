@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增员工</title>
+    <style>
+        .form_new{
+            display: block;
+            margin-left: 40%;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="form_new">
+        <h2>新增员工信息</h2>
+        <form action="{% url 'edit_update' %}" method="post" onsubmit=" return forminfo.check_sub()">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ item.id }}">
+            <p>姓名:<input type="text" name="xm" id="xm" onfocus="check_xmfocus()" onblur="forminfo.check_xmblur()" value="{{ item.xm }}"/>
+                <i style="display: none">中文名字，2到5个字</i></p>
+            <p>身份证号:<input type="text" name="sfzh" id="sfzh" onfocus="check_sfzhfocus()" onblur="forminfo.check_sfzhbulr()" value="{{ item.sfzh }}"/>
+                <i style="display: none">18位身份证号,最后一位是x用小写</i></p>
+            <p>手机号码:<input type="text" name="sjhm" id="sjhm" onfocus="check_sjhmfocus()" onblur="forminfo.check_sjhmbulr()" value="{{ item.sjhm }}"/>
+                <i style="display: none">11位手机号码</i></p>
+            <p>性别：男<input type="radio" name="xb" id='男' value="男"/>
+                    女<input type="radio" name="xb" id="女" value="女"/></p>
+            <p>年龄:<input type="number" name="nl" value="{{ item.nl }}"/></p>
+            <p>职务：
+                <select name="zw" id="zw">
+                    <option>总经理</option>
+                    <option>副总经理</option>
+                    <option>部门经理</option>
+                    <option>部门副经理</option>
+                    <option>部门主管</option>
+                    <option>普通员工</option>
+                </select></p>
+            <p>岗级:<input type="text" name="gj" value="{{ item.gj }}"/></p>
+            <p>学历:
+                <select name="xl" id="xl">
+                    <option>博士</option>
+                    <option>硕士</option>
+                    <option>大学本科</option>
+                    <option>大学专科</option>
+                    <option>中等专科</option>
+                    <option>高中及以下</option>
+                </select></p>
+            <p>婚姻状况：已婚<input type="radio" name="hyzk" id="已婚" value="已婚"/>
+                       未婚<input type="radio" name="hyzk" id="未婚" value="未婚" /></p>
+            <p>政治面貌:
+                <select name="zzmm" id="zzmm">
+                    <option>共产党员</option>
+                    <option>其他党派</option>
+                    <option>群众</option>
+                </select></p>
+            <p>获奖信息:<input type="text" name="hjxx" value="{{ item.hjxx }}"/></p>
+            <p>特长:<textarea name="tc" id="tc" cols="30" rows="6"></textarea></p>
+            <input type="submit" name="submit" value="修改信息">
+            <input type="reset" value="清空信息">
+        </form>
+    </div>
+    <script>
+        var xm = document.getElementById('xm');
+        var sfzh = document.getElementById('sfzh');
+        var sjhm=document.getElementById('sjhm');
+        var i= document.getElementsByTagName('i');
+        var ixm = i[0];
+        var isfzh = i[1];
+        var isjhm = i[2];
+
+        {#获得多行输入特长的数据#}
+        var tc=document.getElementById('tc')
+        tc.value = '{{ item.tc }}';
+
+        {#获得单选框性别的数据#}
+        var xb0 = document.getElementById('男');
+        var xb1 = document.getElementById('女');
+        if(xb0.value==='{{ item.xb }}'){
+            xb0.checked =true;
+        }else {
+            xb1.checked =true;
+        }
+
+        {#获得单选框婚姻状况的数据#}
+        var hyzk0 = document.getElementById('已婚');
+        var hyzk1 = document.getElementById('未婚');
+        if(hyzk0.value==='{{ item.hyzk }}'){
+            hyzk0.checked =true;
+        }else {
+            hyzk1.checked =true;
+        }
+
+        {#获得多选框职务#}
+{#        var obj_zw = document.getElementById("zw");#}
+{#        var index_zw = obj_zw.selectedIndex;#}
+{#        obj_zw.options[index_zw] = new Option('{{ item.zw }}');#}
+{#        obj_zw.options[index_zw].selected = true;#}
+{##}
+        {#获得多选框学历#}
+{#        var obj_xl = document.getElementById("xl");#}
+{#        var index_xl = obj_xl.selectedIndex;#}
+{#        obj_xl.options[index_xl] = new Option('{{ item.xl }}');#}
+{#        obj_xl.options[index_xl].selected = true;#}
+{##}
+        {#获得多选框政治面貌#}
+{#        var obj_zzmm = document.getElementById("zzmm");#}
+{#        var index_zzmm = obj_zzmm.selectedIndex;#}
+{#        obj_zzmm.options[index_zzmm] = new Option('{{ item.zzmm }}');#}
+{#        obj_zzmm.options[index_zzmm].selected = true;#}
+
+
+        {#前三项获取焦点函数#}
+        function check_xmfocus(){
+            ixm.style.display='inline';
+        }
+        function check_sfzhfocus(){
+            isfzh.style.display='inline';
+        }
+        function check_sjhmfocus (){
+            isjhm.style.display = 'inline';
+        }
+        {#前三项失去焦点函数和提交验证#}
+        var forminfo = {
+            // 姓名验证
+            check_xmblur:function (){
+                var re = /^[\u4e00-\u9fa5]{2,5}$/
+                if (xm.value===''){
+                    ixm.innerText = '空值无法提交-_-';
+                    ixm.style.color = 'red';
+                    return false;
+                }
+                else if (!re.test(xm.value)){
+                    ixm.innerText='输入的信息不符合要求，必须是2到5个中文名o_o';
+                    ixm.style.color = 'red';
+                    return false;
+                }
+                else {
+                    ixm.innerText='通过验证^_^';
+                    ixm.style.color = 'green';
+                    return true;
+                }
+            },
+            // 身份证号验证
+            check_sfzhbulr:function (){
+                var re = /^[0-9]{17}[0-9]|x$/
+                if (sfzh.value===''){
+                    isfzh.innerText = '空值无法提交-_-';
+                    isfzh.style.color = 'red';
+                    return false;
+                }
+                else if (!re.test(sfzh.value)){
+                    isfzh.innerText='必须是18位身份证号码,最后一位是x用小写o_o';
+                    isfzh.style.color = 'red';
+                    return false;
+                }
+                else {
+                    isfzh.innerText='通过验证^_^';
+                    isfzh.style.color = 'green';
+                    return true;
+                }
+            },
+            // 电话号码验证
+            check_sjhmbulr:function (){
+                var re = /^1[0-9]{10}$/
+                if (sjhm.value===''){
+                    isjhm.innerText = '空值无法提交-_-';
+                    isjhm.style.color = 'red';
+                    return false;
+                }
+                else if (!re.test(sjhm.value)){
+                    isjhm.innerText='必须是11位手机号码o_o';
+                    isjhm.style.color = 'red';
+                    return false;
+                }
+                else {
+                    isjhm.innerText='通过验证^_^';
+                    isjhm.style.color = 'green';
+                    return true;
+                }
+            },
+            check_sub:function () {
+                var xmres = this.check_xmblur();
+                var sfzhres = this.check_sfzhbulr();
+                var sjhmres = this.check_sjhmbulr();
+                if (xmres && sfzhres && sjhmres === true){
+                    return  xmres && sfzhres && sjhmres;
+                }else {
+                    alert('不满足提交要求')
+                    return false
+                }
+
+            }
+        }
+    </script>
+</body>
+</html>

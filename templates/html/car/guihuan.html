@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>还车信息</title>
+</head>
+<body>
+    <div align="center">
+        <h2>还车信息</h2>
+        <form action="{% url 'guihuan_update' %}" method="post">
+            {% csrf_token %}
+            <p><input type="hidden" name="id" value="{{ item.id }}"></p>
+            <p>派出车辆:<input type="text" name="cym" value="{{ item.cym }}"></p>
+            <p>驾驶员:<input type="text" name="jsy" value="{{ item.jsy }}"></p>
+            <p>用车事由:<input type="text" name="ycsy"  size="64" value="{{ item.ycsy }}"></p>
+            <p>产生油费:<input type="text" name="csyf">元</p>
+            <p>产生公里数:<input type="text" name="csgls">公里</p>
+            <p>使用车辆状况:<input type="text" name="syclzk"></p>
+            <p><input type="submit" name="anpai_submit">
+                <button><a href="{% url 'car' %}">返回</a></button>
+            </p>
+        </form>
+    </div>
+</body>
+</html>
